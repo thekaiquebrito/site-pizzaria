@@ -5,67 +5,169 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizzaria</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <script src="/assets/js/pizzas.js" defer></script>
 </head>
-<body>
-    <h1 class="title">Pizzas</h1>
-    <main id="menu">
-        <div class="card">
-            <img src="imagens/pizza.png" alt="">
-            <div class="title">Calabresa</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.png" alt="">
-            <div class="title">Atum</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.jfif" alt="">
-            <div class="title">Quatro Queijos</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.jfif" alt="">
-            <div class="title">Quatro Queijos</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.jfif" alt="">
-            <div class="title">lorem lorem</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.jfif" alt="">
-            <div class="title">lorem lorem</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
-        </div>
-        <div class="card">
-            <img src="imagens/pizza2.jfif" alt="">
-            <div class="title">lorem lorem</div>
-            <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
-            <button class="add-cart--btn">
-                <img src="imagens/add_pizza_btn.svg" alt="">
-            </button>
+<body class="cart">
+    
+    <main id="menu" class="hide">
+        <div class="container">
+            <nav class="flex">
+                <a href="/" class="title">Pizzas</a>
+                <button id="open-cart">
+                    <img src="assets/img/cart.svg" alt="">
+                </button>
+            </nav>
+        
+            <div class="cards cart">
+
+                <div class="card">
+                    <img src="assets/img/pizza.png" alt="">
+                    <div class="title">Calabresa</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart-btn">
+                        <img src="/assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                <div class="card">
+                    <img src="assets/img/pizza2.png" alt="">
+                    <div class="title">Atum</div>
+                    <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Aliquid ratione, mollitia omnis adipisci quae vitae.</div>
+                    <button class="add-cart--btn">
+                        <img src="assets/img/add_pizza_btn.svg" alt="">
+                    </button>
+                </div>
+                
+            </div>
         </div>
     </main>
+
+    <section id="cart" class="">
+        <h1 class="title">Suas Pizzas</h1>
+        <div class="preview-pizza">
+            <div class="preview">
+                <img src="assets/img/pizza.png" alt="">
+                <span>Calabresa (G)</span>
+            </div>
+            <div class="qtd-pizza-btn">
+                <button id="minus">
+                    <img src="assets/img/minus.svg" alt="">
+                </button>
+                <div id="qtd-pizzas">
+                    2
+                </div>
+                <button id="plus">
+                    <img src="assets/img/plus.svg" alt="">
+                </button>
+            </div>
+        </div>
+        <div class="prices">
+            <div class="divider"></div>
+            <div class="subtotal">
+                <span>Subtotal</span>
+                <span>R$100,95</span>
+            </div>
+            <div class="divider"></div>
+            <div class="discount">
+                <span>Desconto (-10%)</span>
+                <span>R$10,95</span>
+            </div>
+            <div class="divider"></div>
+            <div class="total">
+                <span>Total</span>
+                <span>90,95</span>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="finalize-buy">Finalizar Compra</button>
+        </div>
+    </section>
+
+    <section id="menu-central" class="hide">
+        <div class="container">
+
+            <div class="left">
+                <img src="assets/img/pizza.png" alt="">
+            </div>
+            <div class="right">
+                <div class="title">Calabresa</div>
+                <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum, possimus!</div>
+               
+                <div class="size">
+    
+                    <div class="text">Tamanho</div>
+                    <div class="selection-bar flex">
+                        <button class="p">Pequena <span>100g</span></button>
+                        <button class="m" onclick="">Media <span>400g</span></button>
+                        <button class="g active">Grande <span>800g</span></button>
+                    </div>
+                </div>
+    
+                <div class="price-container">
+                    <div class="text">Preço</div>
+                    <div class="flex">
+                        <div class="price">R$20,00</div>
+                        <div class="qtd-pizza-btn">
+                            <button id="minus">
+                                <img src="assets/img/minus.svg" alt="">
+                            </button>
+                            <div id="qtd-pizzas">
+                                2
+                            </div>
+                            <button id="plus">
+                                <img src="assets/img/plus.svg" alt="">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="add-cart-container">
+                    <button class="add-cart-btn">Adicionar ao Carrinho</button>
+                    <button class="cancel">Cancelar</button>
+                </div>
+            </div>
+       
+        </div>
+    </section>
+
 </body>
 </html>
