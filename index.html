@@ -9,6 +9,16 @@
     <script src="/assets/js/script.js" defer></script>
 </head>
 <body>
+    <div class="models">
+        <div class="pizza-card--container">
+            <div class="pizza-card--img"></div>
+            <div class="pizza-card--title"></div>
+            <div class="pizza-card--desc"></div>
+            <div class="pizza-card--button">
+                <div class="pizza-card--button--img"></div>
+            </div>
+        </div>
+    </div>
     
     <main id="menu" class="">
         <div class="container">
@@ -19,7 +29,7 @@
                 </button>
             </nav>
         
-            <div class="cards">
+            <div class="pizza-cards--area">
 
             </div>
         </div>
@@ -27,22 +37,8 @@
 
     <section id="cart" class="hide">
         <h1 class="title">Suas Pizzas</h1>
-        <div class="preview-pizza">
-            <div class="preview">
-                <img src="assets/img/pizza.png" alt="">
-                <span>Calabresa (G)</span>
-            </div>
-            <div class="qtd-pizza-btn">
-                <button id="minus">
-                    <img src="assets/img/minus.svg" alt="">
-                </button>
-                <div id="qtd-pizzas">
-                    2
-                </div>
-                <button id="plus">
-                    <img src="assets/img/plus.svg" alt="">
-                </button>
-            </div>
+        <div class="preview-container">
+               
         </div>
         <div class="prices">
             <div class="divider"></div>
@@ -70,34 +66,36 @@
         <div class="container">
 
             <div class="left">
-                <img src="assets/img/pizza.png" alt="">
+                <img id="img-cart" src="" alt="">
             </div>
             <div class="right">
-                <div class="title">Calabresa</div>
-                <div class="description">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cum, possimus!</div>
+                <div class="title-cart"></div>
+                <div class="description-cart"></div>
                
                 <div class="size">
     
                     <div class="text">Tamanho</div>
                     <div class="selection-bar flex">
-                        <button class="p">Pequena <span>100g</span></button>
-                        <button class="m" onclick="">Media <span>400g</span></button>
-                        <button class="g active">Grande <span>800g</span></button>
+                        <button class="size-button p" onclick="getP(event, this)">Pequena <span>100g</span></button>
+                        <button class="size-button m" onclick="getM(event, this)">Media <span>400g</span></button>
+                        <button class="size-button g active" onclick="getG(event, this)">Grande <span>800g</span></button>
                     </div>
                 </div>
     
                 <div class="price-container">
                     <div class="text">Preço</div>
                     <div class="flex">
-                        <div class="price">R$20,00</div>
+                        <div class="price-text">
+                            R$ <strong id="price"></strong>
+                        </div>
                         <div class="qtd-pizza-btn">
-                            <button id="minus">
+                            <button id="minus" class="minus" onclick="qtdPizzas(this)">
                                 <img src="assets/img/minus.svg" alt="">
                             </button>
-                            <div id="qtd-pizzas">
-                                2
+                            <div id="qtd-pizzas-menu">
+                                
                             </div>
-                            <button id="plus">
+                            <button id="plus" class="plus" onclick="qtdPizzas(this)">
                                 <img src="assets/img/plus.svg" alt="">
                             </button>
                         </div>
@@ -105,8 +103,8 @@
                 </div>
     
                 <div class="add-cart-container">
-                    <button class="add-cart-btn">Adicionar ao Carrinho</button>
-                    <button class="cancel">Cancelar</button>
+                    <button class="add-cart-btn" onclick="createPreview(pizzaID), openCart()">Adicionar ao Carrinho</button>
+                    <button class="cancel" onclick="closeMenu()">Cancelar</button>
                 </div>
             </div>
        
