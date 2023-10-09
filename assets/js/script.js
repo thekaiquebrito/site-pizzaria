@@ -1,231 +1,260 @@
 //* IMPORTAÇÃO
-const qs = (el) => document.querySelector(el)
-const qsa = (el) => document.querySelectorAll(el)
+const qs = (el) => document.querySelector(el);
+const qsa = (el) => document.querySelectorAll(el);
 
-let body = qs('body');
-let cardsContainer = qs('.pizza-cards--area');
-let cartContainer = qs('#cart');
-let menuCentralContainer = qs('#menu-central');
-let containerPrincipal = qs('.container');
-
-
-//* CRIAÇÃO DOS CARDS DINÂMICAMENTE 
-pizzaJson.map(pizza => {
-    let pizzaCard = qs('.models .pizza-card--container').cloneNode(true);
-
-    pizzaCard.querySelector('.pizza-card--img').setAttribute('src', pizza.image)
-    // pizzaCard.qs('.pizza-card--title').textContent = pizza.name
-    // pizzaCard.qs('.pizza-card--desc').textContent = pizza.description
-    // pizzaCard.qs('.pizza-card--button--img').setAttribute('src', '/assets/img/add_pizza_btn.svg')
-
-    
-
-    qs('.pizza-cards--area').append(pizzaCard)
-})
-
-//* EVENTOS DE CLIQUE
-    // ABRIR CARRINHO
-function openCart() {
-    cardsContainer.classList.toggle('cart');
-    body.classList.toggle('cart');
-    cartContainer.classList.toggle('hide');
-
-    closeMenu()
-
-    if (window.innerWidth <= '650px') {
-       
-        qs('#menu').classList.add('hide')
-        
-    }
-}
-
-    //  ABRIR/CRIAR MENU CENTRAL
-let cardButton = qsa('.card-button');
-let parentCard;
 let pizzaID;
-
-function createMenuCentral() {
-    for (let i in pizzaJson) {
-        if (parentCard.childNodes[1].textContent === pizzaJson[i].name) {
-            let image = qs('#img-cart')
-            image.setAttribute('src', pizzaJson[i].image)
-
-            let title = qs('.title-cart');
-            title.textContent = pizzaJson[i].name;
-            
-            let description = qs('.description-cart');
-            description.textContent = pizzaJson[i].description;
-
-            let price = qs('#price');
-            price.innerHTML = pizzaJson[i].price.g.toFixed(2).toString().replace('.', ',')
-
-            let qtdPizzas = qs('#qtd-pizzas-menu');
-            qtdPizzas.innerHTML = 1
-            
-            pizzaID = pizzaJson[i].id;
-        }
-    }
-}
-
-function setBasePrice() {
-    let active = qs('.active');
-
-    if (active.classList.contains('g')) {
-        for (let i in pizzaJson) {
-            if (pizzaID === pizzaJson[i].id) {
-                let basePrice = pizzaJson[i].price.g
-
-                return basePrice
-            }
-        }
-    }
-    if (active.classList.contains('m')) {
-        for (let i in pizzaJson) {
-            if (pizzaID === pizzaJson[i].id) {
-                let basePrice = pizzaJson[i].price.m
-
-                return basePrice
-            }
-        }
-    }
-    if (active.classList.contains('p')) {
-        for (let i in pizzaJson) {
-            if (pizzaID === pizzaJson[i].id) {
-                let basePrice = pizzaJson[i].price.p.toFixed(2)
-
-                return basePrice
-            }
-        }
-    }
-}
-
-function openMenuCentral(e) {
-    const targetEl = e.target
-    const parentEl = targetEl.parentNode
-    parentCard = parentEl.parentNode
-    
-    createMenuCentral()
-    setBasePrice();
-
-    menuCentralContainer.classList.remove('hide');
-    containerPrincipal.classList.add('menu-central');
-
-    if (window.innerWidth <= 744) {
-        qs('#menu').classList.add('hide')
-    }
-}
+let modalQt;
+let basePrice;
+let size;
+let key;
 
 
-cardButton.forEach(element => {
-    element.setAttribute('onclick', 'openMenuCentral(event)')
+//* CRIAÇÃO DOS CARDS DINÂMICAMENTE
+
+pizzaJson.map((pizza, index) => {
+  let pizzaCard = qs(".models .pizza-card--menu--container").cloneNode(true);
+
+  pizzaCard.setAttribute("data-key", index);
+  pizzaCard.querySelector(".pizza-card--img").setAttribute("src", pizza.image);
+  pizzaCard.querySelector(".pizza-card--title").innerHTML = pizza.name;
+  pizzaCard.querySelector(".pizza-card--desc").innerHTML = pizza.description;
+  pizzaCard.querySelector(".pizza-card--button--img").setAttribute("src", "/assets/img/add_pizza_btn.svg");
+
+  qs("#menu .pizza-cards--area").append(pizzaCard);
 });
 
+function openMenuCentral(e) {
+  key = e.parentElement.getAttribute("data-key");
+  modalQt = 1;
 
-    //* EVENTOS DO MENU CENTRAL
+  qs("#menu-central").classList.remove("hide");
 
-        // IMPORTS
-let price = qs('#price');
-let qtdPizzasText = qs('#qtd-pizzas-menu');
-let cancelBtn = qs('.cancel');
+  if (window.innerWidth <= 744) {
+    qs("#menu").classList.add("hide");
+  }
+
+  qs("#menu-central #pizza-card--img").setAttribute("src", pizzaJson[key].image);
+  qs("#menu-central .pizza-card--title").textContent = pizzaJson[key].name;
+  qs("#menu-central .pizza-card--desc").textContent = pizzaJson[key].description;
+  qs("#price").innerHTML = pizzaJson[key].info[2].price.toFixed(2).toString().replace(".", ",");
+  qs("#qtd-pizzas-menu").innerHTML = modalQt;
+
+  pizzaID = pizzaJson[key].id;
 
 
-        // SELECTION SIZE EVENTS
-function getP() {
-    qs('.size-button.active').classList.remove('active')
-    qs('p').classList.add('active')
 
-    for (let i in pizzaJson) {
-        if (pizzaID === pizzaJson[i].id) {
-            price.textContent = pizzaJson[i].price.p.toFixed(2).toString().replace('.', ',')
-        }
+  //* BOTÕES DO SIZE
+
+  qs(".size-button.active").classList.remove("active");
+  basePrice = pizzaJson[key].info[2].price;
+
+  qsa(".size-button").forEach((sizeBtn, sizeIndex) => {
+    if (sizeIndex == 2) {
+      sizeBtn.classList.add("active")
+      size = pizzaJson[key].info[sizeIndex].size
     }
 
-    qtdPizzasText.textContent = 1
-}
-function getM() {
-    qs('.size-button.active').classList.remove('active')
-    qs('m').classList.add('active')
+    sizeBtn.addEventListener("click", () => {
+      qs("#price").innerHTML = pizzaJson[key].info[sizeIndex].price.toFixed(2).replace(".", ",");
+      qs(".size-button.active").classList.remove("active");
+      sizeBtn.classList.add("active");
 
-    for (let i in pizzaJson) {
-        if (pizzaID === pizzaJson[i].id) {
-            price.textContent = pizzaJson[i].price.m.toFixed(2).toString().replace('.', ',')
-        }
-    }
+      modalQt = 1;
 
-    qtdPizzasText.textContent = 1
-}
-function getG() {
-    qs('.size-button.active').classList.remove('active')
-    qs('g').classList.add('active')
+      qs("#qtd-pizzas-menu").innerHTML = modalQt;
 
-    for (let i in pizzaJson) {
-        if (pizzaID === pizzaJson[i].id) {
-            price.textContent = pizzaJson[i].price.g.toFixed(2).toString().replace('.', ',')
+      basePrice = pizzaJson[key].info[sizeIndex].price.toFixed(2);
+      basePrice = parseFloat(basePrice)
 
-        }
-    }
-
-    qtdPizzasText.textContent = 1
+      size = pizzaJson[key].info[sizeIndex].size
+    });
+  });
 }
 
 
-        // CANCEL BUTTON
-function closeMenu() {
-    menuCentralContainer.classList.add('hide');
-    containerPrincipal.classList.remove('menu-central');
 
-    qs('.size-button.active').classList.remove('active')
-    g.classList.add('active')
-}
+//* BOTOES DE QTD PIZZA MODAL
 
+let result;
+qs("#menu-central .plus").addEventListener("click", () => {
+  modalQt++
+  result = basePrice * modalQt
 
-    //  QTD PIZZAS
-let newBasePrice;
-let infoReturn;
+  qs("#qtd-pizzas-menu").textContent = modalQt;
+  qs("#price").textContent = (result).toFixed(2).replace('.', ',')
+})
+qs("#menu-central .minus").addEventListener("click", () => {
+  if (modalQt <= 1) {
+    return
+  }
 
-function qtdPizzas(element) {
-let basePrice = setBasePrice()
-let result = 0;
-let numPizza = 0;
-    
+  qs("#price").textContent = (result - basePrice).toFixed(2).replace('.', ',')
+  result = result - basePrice
 
-    if (element.classList.contains('plus')) {
-        numPizza = parseInt(qtdPizzasText.textContent)
-        numPizza += 1
-        qtdPizzasText.textContent = numPizza
-
-        result = basePrice * numPizza
-        price.textContent = result.toFixed(2).toString().replace('.', ',');
-
-        
-    } else if (element.classList.contains('minus')) {
-
-        numPizza = parseInt(qtdPizzasText.textContent)
-
-        if (numPizza <= 1) {
-            return
-        }
-
-        qtdPizzasText.textContent = numPizza - 1
-
-        newBasePrice = parseFloat(price.innerHTML.replace(',', '.'));
-        
-        result = newBasePrice - basePrice
-
-        price.textContent = result.toFixed(2).toString().replace('.', ',');
-
-        numPizza -= 1
-    } 
-    
-    
+  modalQt--
+  qs("#qtd-pizzas-menu").textContent = modalQt;
+})
 
 
-}
 
-    // ADD CART BUTTON
-let cartPreviewContainer = document.querySelector('.preview-container');
+//* ADICIONAR AO CARRINHO BUTTON
+
 let pizzasOnCart = [];
 
-if (pizzasOnCart.length == 0) {
-    qs('.preview-container').innerHTML = '<p>Adicione Itens ao Carrinho</p>'
+qs(".add-cart-btn").addEventListener("click", () => {
+  let pizzaCard = qs(".pizza-card--cart--container").cloneNode(true);
+  let pizzaCardOb = {};
+  let cartQt = modalQt
+
+  pizzaCard.querySelector(".pizza-card--img").setAttribute("src", pizzaJson[key].image);
+  pizzaCard.querySelector(".pizza-card--title").textContent = `${pizzaJson[key].name} (${size.toUpperCase()})`;
+  pizzaCard.querySelector(".qtd-pizzas").textContent = cartQt;
+
+  pizzaCardOb.html = pizzaCard
+  pizzaCardOb.size = size
+  pizzaCardOb.key = key
+  pizzaCardOb.qt = cartQt
+  pizzaCardOb.basePrice = basePrice
+  pizzaCardOb.price = result
+
+  if (modalQt == 1) {
+    pizzaCardOb.price = basePrice
+  }
+
+  pizzasOnCart.push(pizzaCardOb);
+  alert("Item adicionado ao Carrinho!");
+
+  pizzasOnCart.map((pizzaCard, index) => {
+    qs("#cart .pizza-cards--area").appendChild(pizzaCard.html);
+    qs(".circle").classList.remove("hide");
+    pizzaCardOb.index = index
+  });
+
+  calculatePrices()
+  closeMenu()
+});
+
+function calculatePrices() {
+  let discount = 0.1
+  let somaPreco = pizzasOnCart.reduce((acumulador, pizzaCard) => {
+    return acumulador + pizzaCard.price
+  }, 0)
+
+  qs("#cart .sub-price").innerHTML = somaPreco.toFixed(2).replace(".", ",")
+  qs("#cart .disc-price").innerHTML = (somaPreco - (somaPreco * (1 - discount))).toFixed(2).replace(".", ",")
+  qs("#cart .total-price").innerHTML = (somaPreco * (1 - discount)).toFixed(2).replace(".", ",")
+}
+
+
+//* CLOSE MODAL BUTTON
+
+function closeMenu() {
+  modalQt = 1;
+
+  qs("#menu-central").classList.add("hide");
+  qs(".container").classList.remove("menu-central");
+
+  if (qs("#menu").classList.contains("hide")) {
+    qs("#menu").classList.remove("hide");
+  }
+}
+
+
+
+//*     CARRINHO    *//
+
+//* ABRIR E FECHAR CARRINHO
+
+function toggleCart(el) {
+  qs("#menu .pizza-cards--area").classList.toggle("cart");
+  qs(".content").classList.toggle("cart");
+  qs("body").classList.toggle("cart");
+  qs("#cart").classList.toggle("hide");
+
+  closeMenu();
+
+  if (!qs("#cart").classList.contains("hide")) {
+    //CARRINHO ABERTO
+
+    qs(".x").classList.remove("hide");
+    qs(".x").classList.add("close-cart--button");
+
+    qs(".cart-img").classList.add("hide");
+    qs(".circle").classList.add("hide");
+
+    if (window.innerWidth <= 744) {
+      qs("#menu").classList.add("hide");
+      qs("#cart").style.borderRadius = "0";
+      qs("body").style.flexDirection = "column";
+    }
+  } else {
+    //CARRINHO FECHADO
+    qs("#cart").classList.add("hide");
+    qs(".cart-img").classList.remove("hide");
+    qs(".x").classList.add("hide");
+
+    if (pizzasOnCart.length > 0) {
+      qs(".circle").classList.remove("hide");
+    } else {
+      qs(".circle").classList.add("hide");
+    }
+
+    if (qs("#menu").classList.contains("hide")) {
+      qs("#menu").classList.remove("hide");
+    }
+  }
+}
+
+
+//* BOTOES DE QTD PIZZA CARRINHO
+
+function qtdPizzasCart(e) {
+  if (e.target.classList.contains("plus") || e.target.parentElement.classList.contains("plus")) {
+    let card = e.target.closest('.pizza-card--cart--container')
+    console.log(card)
+
+    pizzasOnCart.findIndex((obj, index) => {
+      if (obj.html == card) {
+        obj.qt++
+        card.querySelector('.qtd-pizzas').textContent = obj.qt
+
+        obj.price = obj.basePrice * obj.qt
+
+        console.log(pizzasOnCart)
+      }
+    })
+    calculatePrices()
+
+  } else if (e.target.classList.contains("minus") || e.target.parentElement.classList.contains("minus")) {
+    pizzasOnCart.findIndex((obj, index) => {
+      let card = e.target.closest('.pizza-card--cart--container')
+
+      if (obj.html == card) {
+        obj.qt--
+
+        if (obj.qt == 0) {  // EXCLUIR PIZZA DO CARRINHO
+          let filteredList = pizzasOnCart.filter(pizzaCard => {
+            if (pizzaCard.html == obj.html) {
+              qs("#cart .pizza-cards--area").removeChild(pizzaCard.html)
+            }
+            return pizzaCard.html != obj.html
+          })
+          pizzasOnCart = filteredList
+        }
+        else if (obj.qt == 1) {
+          obj.price = basePrice
+        }
+        else {
+          obj.price = obj.price - obj.basePrice
+        }
+
+
+
+
+        card.querySelector('.qtd-pizzas').textContent = obj.qt
+        calculatePrices()
+        console.log(pizzasOnCart)
+      }
+    })
+  }
 }

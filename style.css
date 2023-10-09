@@ -12,6 +12,10 @@
 button {
     cursor: pointer;
     font-family: 'Open Sans';
+    border: none;
+    outline: none;
+    padding-inline: 0;
+    padding-block: 0;
 }
 a {
     color: inherit;
@@ -47,24 +51,45 @@ a {
 body {
     font-family: 'Open Sans';
 }
+
 body.cart {
     display: flex;
 }
 
-main .container nav {
-    justify-content: space-between;
-    align-items: center;
+header {
+    padding: 32px;
+    grid-column: 1/2;
+    grid-row: 1/2;
 }
-
-main .container nav img {
+header nav {
+    display: flex;
+    justify-content: space-between;
+}
+header #toggle-cart, #toggle-cart img {
     width: 40px;
     cursor: pointer;
+}
+header .close-cart--button {
+    color: #000;
+    font-size: 2.2rem;
+    font-weight: bolder;
+}
+header .circle {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgb(255, 0, 0);
 }
 
 a.title, h1.title {
     color: var(--preto);
     font-size: 2.2rem;
     font-weight: bold;
+}
+
+main {
+    grid-column: 1;
+    grid-row: 2;
 }
 
 main .container {
@@ -77,38 +102,38 @@ main .container {
     grid-template-columns: repeat(3, 1fr);
     column-gap: 20px;
     row-gap: var(--espacamento-maior);
-    padding-top: var(--espacamento-menor);
 }
-.pizza-cards--area.cart {
+#menu .pizza-cards--area.cart {
     grid-template-columns: repeat(2, 1fr);
 }
 
-.pizza-card-container {
+.pizza-card--menu--container {
     padding: var(--espacamento-maior);
+    padding-top: 0;
     text-align: center;
 }
 
-.pizza-card--img {
+#menu .pizza-card--img {
     height: 250px;
 }
 
-.pizza-card--title {
+#menu .pizza-card--title {
     color: var(--preto);
     font-size: 1.7rem;
     font-weight: bold;
     padding-top: var(--espacamento-menor);
 }
 
-.pizza-card--desc {
+#menu .pizza-card--desc {
     padding-top: 20px;
     padding: 20px 30px;
     color: var(--cinza);
 }
 
-.pizza-card--button {
+#menu .pizza-card--button {
     padding-top: var(--espacamento-maior);
 }
-.pizza-card--button--img{
+#menu .pizza-card--button--img{
     width: 4rem;
     height: 4rem;
 }
@@ -121,31 +146,41 @@ main .container {
     background-color: var(--rosa);
     padding: 2rem;
     border-radius: 0 0 0 60px;
-    min-width: 300px;
+    min-width: auto;
 }
 
-.preview-container {
+#cart .cart-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+#cart .pizza-cards--area {
     display: flex;
     flex-direction: column;
     gap: var(--espacamento-menor);
     padding-top: var(--espacamento-maior);
 }
 
-.preview-pizza {
+.pizza-card--cart--container {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
 
-.preview {
+#cart .pizza-card--cart--container {
     display: flex;
     align-items: center;
 }
-.preview img {
-    height: 75px;
-    padding-right: var(--espacamento-menor);
+
+#cart .pizza-info {
+    display: flex;
+    align-items: center;
 }
-.preview span {
+#cart .pizza-card--img {
+    height: 75px;
+    padding-right: 1.50rem;
+}
+#cart .pizza-card--title {
     font-weight: bold;
     padding-right: var(--espacamento-menor);
 }
@@ -154,11 +189,11 @@ main .container {
     display: flex;
     align-items: center;
 }
-.qtd-pizza-btn #minus, .qtd-pizza-btn .minus {
+.qtd-pizza-btn .minus {
     padding:  0 0 0 7px;
     border-radius: 9px 0 0 9px;
 }
-.qtd-pizza-btn #plus, .qtd-pizza-btn .plus  {
+.qtd-pizza-btn .plus  {
     padding:  0 7px 0 0;
     border-radius:  0 9px 9px 0;
 }
@@ -181,6 +216,7 @@ main .container {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
+    gap: var(--espacamento-maior);
 }
 
 .subtotal, .discount {
@@ -213,11 +249,16 @@ main .container {
 
 #menu-central {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
     padding: 20px;
-    z-index: 999;
+    z-index: 2;
+    background-color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #menu-central .container {
@@ -227,6 +268,7 @@ main .container {
     border-radius: 2.5rem;
     display: flex;
     gap: var(--espacamento-maior);
+   opacity: 1;
 }
 
 #menu-central .left {
@@ -234,24 +276,22 @@ main .container {
     place-items: center;
 }
 
-#menu-central .left img {
+#menu-central #pizza-card--img {
     width: 28.12rem;
 }
 
-#menu-central .left, #menu-central .right {
-    flex: 1;
-}
 
-.right .title-cart {
+#menu-central .pizza-card--title {
     font-size: 2rem;
     font-weight: bold;
 }
 
-.right .description-cart {
+#menu-central .pizza-card--desc {
     color: var(--cinza);
     font-weight: 500;
     padding-top: 1.25rem;
     font-size: 1.10rem;
+    max-width: 700px;
 }
 
 .right .text {
@@ -268,7 +308,7 @@ main .container {
     width: max-content;
 }
 
-.p, .m, .g{
+.size-button{
     background-color: #EBEBEB;
     padding: 0.93rem 1.87rem;
     font-size: 1.125rem;
@@ -276,7 +316,7 @@ main .container {
     border-radius: 9px;
 }
 
-.p span, .m span, .g span {
+.size-button span {
     font-weight: 400;
 }
 
@@ -323,10 +363,6 @@ main .container {
     font-weight: bold;
 }
 
-.container.menu-central {
-    background-color: #c4c4c4;
-    opacity: 0.5;
-}
 
 
 
@@ -345,7 +381,7 @@ main .container {
         flex: 1;
     }
 
-    main .cards {
+    main .pizza-cards--area {
         grid-template-columns: repeat(2, 1fr);
     }
 
@@ -358,7 +394,7 @@ main .container {
         height: 200px;
     }
 
-    .cards.cart {
+    #menu .pizza-cards--area.cart {
         grid-template-columns: 1fr;
     }
 
@@ -375,6 +411,7 @@ main .container {
 
     #menu-central .container {
         flex-direction: column;
+        max-width: 800px;
     }
 
 
@@ -392,6 +429,10 @@ main .container {
         font-size: 13px;
     }
 
+    body, body.cart {
+        display: block;
+    }
+
     #menu-central {
         position: static;
         transform: none;
@@ -407,7 +448,7 @@ main .container {
         display: none;
     }
 
-    main .cards {
+    #menu .pizza-cards--area {
         grid-template-columns: 1fr;
     }
 

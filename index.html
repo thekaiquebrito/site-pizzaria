@@ -10,106 +10,132 @@
 </head>
 <body>
     <div class="models">
-        <div class="pizza-card--container">
-            <div class="pizza-card--img"></div>
+        <div class="pizza-card--menu--container">
+            <img class="pizza-card--img"></img>
             <div class="pizza-card--title"></div>
             <div class="pizza-card--desc"></div>
-            <div class="pizza-card--button">
-                <div class="pizza-card--button--img"></div>
+            <button class="pizza-card--button" onclick="openMenuCentral(this)">
+                <img class="pizza-card--button--img"></img>
+            </button>
+        </div>
+        <div class="pizza-card--cart--container">
+            <div class="pizza-info">
+                <img src="" alt="" class="pizza-card--img">
+                <span class="pizza-card--title"></span>
+            </div>
+            <div class="qtd-pizza-btn">
+                <button class="minus" onclick="qtdPizzasCart(event)">
+                    <img src="assets/img/minus.svg" alt="">
+                </button>
+                <div class="qtd-pizzas">
+                    
+                </div>
+                <button class="plus" onclick="qtdPizzasCart(event)">
+                    <img src="assets/img/plus.svg" alt="">
+                </button>
             </div>
         </div>
     </div>
     
-    <main id="menu" class="">
-        <div class="container">
-            <nav class="flex">
+
+    <div class="content">
+
+        <header>
+            <nav>
                 <a href="/" class="title">Pizzas</a>
-                <button id="open-cart" onclick="openCart()">
-                    <img src="assets/img/cart.svg" alt="">
+                <button id="toggle-cart" onclick="toggleCart(this)">
+                    <div class="circle hide"></div>
+                    <img src="assets/img/cart.svg" class="cart-img" alt="">
+                    <span class="x hide">X</span>
                 </button>
             </nav>
-        
-            <div class="pizza-cards--area">
+        </header>
 
+        <main id="menu" class="">
+            <div class="container">
+                <div class="pizza-cards--area">
+    
+                </div>
             </div>
-        </div>
-    </main>
+        </main>
+    
+    
+        <section id="menu-central" class="hide">
+            <div class="container">
+                <div class="left">
+                    <img id="pizza-card--img" src="" alt="">
+                </div>
+                <div class="right">
+                    <div class="pizza-card--title"></div>
+                    <div class="pizza-card--desc"></div>
+                   
+                    <div class="size">
+        
+                        <div class="text">Tamanho</div>
+                        <div class="selection-bar flex">
+                            <button class="size-button">Pequena <span>100g</span></button>
+                            <button class="size-button">Media <span>400g</span></button>
+                            <button class="size-button active">Grande <span>800g</span></button>
+                        </div>
+                    </div>
+        
+                    <div class="price-container">
+                        <div class="text">Preço</div>
+                        <div class="flex">
+                            <div class="price-text">
+                                R$ <strong id="price"></strong>
+                            </div>
+                            <div class="qtd-pizza-btn">
+                                <button class="minus">
+                                    <img src="assets/img/minus.svg" alt="">
+                                </button>
+                                <div id="qtd-pizzas-menu">
+                                    
+                                </div>
+                                <button class="plus">
+                                    <img src="assets/img/plus.svg" alt="">
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="add-cart-container">
+                        <button class="add-cart-btn">Adicionar ao Carrinho</button>
+                        <button class="cancel" onclick="closeMenu()">Cancelar</button>
+                    </div>
+                </div>
+           
+            </div>
+        </section>
+    </div>
 
     <section id="cart" class="hide">
-        <h1 class="title">Suas Pizzas</h1>
-        <div class="preview-container">
-               
+        <div class="cart-header">
+            <h1 class="title">Suas Pizzas</h1>
+        </div>
+        <div class="pizza-cards--area">
+
         </div>
         <div class="prices">
             <div class="divider"></div>
             <div class="subtotal">
                 <span>Subtotal</span>
-                <span>R$100,95</span>
+                <span class="sub-price"></span>
             </div>
             <div class="divider"></div>
             <div class="discount">
                 <span>Desconto (-10%)</span>
-                <span>R$10,95</span>
+                <span class="disc-price"></span>
             </div>
             <div class="divider"></div>
             <div class="total">
                 <span>Total</span>
-                <span>90,95</span>
+                <span class="total-price"></span>
             </div>
         </div>
         <div class="button-container">
             <button id="finalize-buy">Finalizar Compra</button>
         </div>
     </section>
-
-    <section id="menu-central" class="hide">
-        <div class="container">
-
-            <div class="left">
-                <img id="img-cart" src="" alt="">
-            </div>
-            <div class="right">
-                <div class="title-cart"></div>
-                <div class="description-cart"></div>
-               
-                <div class="size">
-    
-                    <div class="text">Tamanho</div>
-                    <div class="selection-bar flex">
-                        <button class="size-button p" onclick="getP(event, this)">Pequena <span>100g</span></button>
-                        <button class="size-button m" onclick="getM(event, this)">Media <span>400g</span></button>
-                        <button class="size-button g active" onclick="getG(event, this)">Grande <span>800g</span></button>
-                    </div>
-                </div>
-    
-                <div class="price-container">
-                    <div class="text">Preço</div>
-                    <div class="flex">
-                        <div class="price-text">
-                            R$ <strong id="price"></strong>
-                        </div>
-                        <div class="qtd-pizza-btn">
-                            <button id="minus" class="minus" onclick="qtdPizzas(this)">
-                                <img src="assets/img/minus.svg" alt="">
-                            </button>
-                            <div id="qtd-pizzas-menu">
-                                
-                            </div>
-                            <button id="plus" class="plus" onclick="qtdPizzas(this)">
-                                <img src="assets/img/plus.svg" alt="">
-                            </button>
-                        </div>
-                    </div>
-                </div>
-    
-                <div class="add-cart-container">
-                    <button class="add-cart-btn" onclick="createPreview(pizzaID), openCart()">Adicionar ao Carrinho</button>
-                    <button class="cancel" onclick="closeMenu()">Cancelar</button>
-                </div>
-            </div>
-       
-        </div>
-    </section>
-
 </body>
 </html>
