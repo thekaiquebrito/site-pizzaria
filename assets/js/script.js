@@ -10,7 +10,6 @@ let key;
 
 
 //* CRIAÇÃO DOS CARDS DINÂMICAMENTE
-
 pizzaJson.map((pizza, index) => {
   let pizzaCard = qs(".models .pizza-card--menu--container").cloneNode(true);
 
@@ -23,8 +22,11 @@ pizzaJson.map((pizza, index) => {
   qs("#menu .pizza-cards--area").append(pizzaCard);
 });
 
+
+
+//*ABRIR O MODAL
 function openMenuCentral(e) {
-  key = e.parentElement.getAttribute("data-key");
+  key = parseInt(e.parentElement.getAttribute("data-key"));
   modalQt = 1;
 
   qs("#menu-central").classList.remove("hide");
@@ -44,7 +46,6 @@ function openMenuCentral(e) {
 
 
   //* BOTÕES DO SIZE
-
   qs(".size-button.active").classList.remove("active");
   basePrice = pizzaJson[key].info[2].price;
 
@@ -74,7 +75,6 @@ function openMenuCentral(e) {
 
 
 //* BOTOES DE QTD PIZZA MODAL
-
 let result;
 qs("#menu-central .plus").addEventListener("click", () => {
   modalQt++
@@ -98,45 +98,56 @@ qs("#menu-central .minus").addEventListener("click", () => {
 
 
 //* ADICIONAR AO CARRINHO BUTTON
-
-let pizzasOnCart = [];
+let cart = [];
 
 qs(".add-cart-btn").addEventListener("click", () => {
   let pizzaCard = qs(".pizza-card--cart--container").cloneNode(true);
-  let pizzaCardOb = {};
   let cartQt = modalQt
 
   pizzaCard.querySelector(".pizza-card--img").setAttribute("src", pizzaJson[key].image);
   pizzaCard.querySelector(".pizza-card--title").textContent = `${pizzaJson[key].name} (${size.toUpperCase()})`;
   pizzaCard.querySelector(".qtd-pizzas").textContent = cartQt;
 
-  pizzaCardOb.html = pizzaCard
-  pizzaCardOb.size = size
-  pizzaCardOb.key = key
-  pizzaCardOb.qt = cartQt
-  pizzaCardOb.basePrice = basePrice
-  pizzaCardOb.price = result
-
   if (modalQt == 1) {
-    pizzaCardOb.price = basePrice
+    result = basePrice
   }
 
-  pizzasOnCart.push(pizzaCardOb);
+  let identifier = `${pizzaJson[key].id}@${size}`
+
+  let newKey = cart.findIndex(obj => obj.identifier == identifier)
+
+  if (newKey != -1) {
+    cart[newKey].qt += modalQt
+    cart[newKey].price += basePrice * modalQt
+    cart[newKey].html.querySelector(".qtd-pizzas").textContent = cart[newKey].qt;
+  } else {
+    cart.push({
+      identifier,
+      size,
+      html: pizzaCard,
+      qt: cartQt,
+      basePrice: basePrice,
+      price: result
+    });
+  }
+
   alert("Item adicionado ao Carrinho!");
 
-  pizzasOnCart.map((pizzaCard, index) => {
+  cart.map(pizzaCard => {
     qs("#cart .pizza-cards--area").appendChild(pizzaCard.html);
     qs(".circle").classList.remove("hide");
-    pizzaCardOb.index = index
   });
 
   calculatePrices()
   closeMenu()
 });
 
+
+
+//* CALCULAR OS PREÇOS DO CARRINHO
 function calculatePrices() {
   let discount = 0.1
-  let somaPreco = pizzasOnCart.reduce((acumulador, pizzaCard) => {
+  let somaPreco = cart.reduce((acumulador, pizzaCard) => {
     return acumulador + pizzaCard.price
   }, 0)
 
@@ -193,7 +204,7 @@ function toggleCart(el) {
     qs(".cart-img").classList.remove("hide");
     qs(".x").classList.add("hide");
 
-    if (pizzasOnCart.length > 0) {
+    if (cart.length > 0) {
       qs(".circle").classList.remove("hide");
     } else {
       qs(".circle").classList.add("hide");
@@ -213,33 +224,33 @@ function qtdPizzasCart(e) {
     let card = e.target.closest('.pizza-card--cart--container')
     console.log(card)
 
-    pizzasOnCart.findIndex((obj, index) => {
+    cart.findIndex((obj, index) => {
       if (obj.html == card) {
         obj.qt++
         card.querySelector('.qtd-pizzas').textContent = obj.qt
 
         obj.price = obj.basePrice * obj.qt
 
-        console.log(pizzasOnCart)
+        console.log(cart)
       }
     })
     calculatePrices()
 
   } else if (e.target.classList.contains("minus") || e.target.parentElement.classList.contains("minus")) {
-    pizzasOnCart.findIndex((obj, index) => {
+    cart.findIndex((obj, index) => {
       let card = e.target.closest('.pizza-card--cart--container')
 
       if (obj.html == card) {
         obj.qt--
 
         if (obj.qt == 0) {  // EXCLUIR PIZZA DO CARRINHO
-          let filteredList = pizzasOnCart.filter(pizzaCard => {
+          let filteredList = cart.filter(pizzaCard => {
             if (pizzaCard.html == obj.html) {
               qs("#cart .pizza-cards--area").removeChild(pizzaCard.html)
             }
             return pizzaCard.html != obj.html
           })
-          pizzasOnCart = filteredList
+          cart = filteredList
         }
         else if (obj.qt == 1) {
           obj.price = basePrice
@@ -248,13 +259,18 @@ function qtdPizzasCart(e) {
           obj.price = obj.price - obj.basePrice
         }
 
-
-
+        if (cart.length == 0) {
+          toggleCart()
+        }
 
         card.querySelector('.qtd-pizzas').textContent = obj.qt
         calculatePrices()
-        console.log(pizzasOnCart)
+        console.log(cart)
       }
     })
   }
 }
+
+qs("#finalize-buy").addEventListener("click", () => {
+  alert("Seu pedido está em preparo, obrigado pela preferência!!")
+})
